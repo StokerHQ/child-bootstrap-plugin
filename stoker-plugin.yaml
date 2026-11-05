@@ -1,0 +1,11 @@
+# yaml-language-server: $schema=https://schemas.stokerhq.app/plugins/v1/plugin-project.schema.json
+# Built against the Stoker plugin SDK release pinned here (fetched by scripts/fetch-sdk.ps1).
+schemaVersion: "1.0"
+key: app.stokerhq.child-bootstrap
+kind: hook
+sdk:
+  version: "1.0.1"
+  sha256: "f53602e990ca59c348b99f6eb00e9b082f21a5b6b3aa766c521038fa59a69b6e"
+targets:
+  - { os: windows, architecture: x86, source: src/child_bootstrap.cpp, name: child-bootstrap }
+  - { os: windows, architecture: x64, source: src/child_bootstrap.cpp, name: child-bootstrap }

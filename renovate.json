@@ -1,0 +1,25 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended"],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "description": "The plugin SDK stoker-plugin.yaml pins: its version and the release zip's SHA-256, bumped together.",
+      "managerFilePatterns": ["/(^|/)stoker-plugin\\.yaml$/"],
+      "matchStrings": [
+        "sdk:\\s*\\n\\s*version:\\s*\"(?<currentValue>[^\"]+)\"\\s*\\n\\s*sha256:\\s*\"(?<currentDigest>[0-9a-f]{64})\""
+      ],
+      "datasourceTemplate": "github-release-attachments",
+      "depNameTemplate": "StokerHQ/plugin-sdk",
+      "extractVersionTemplate": "^v(?<version>.+)$"
+    },
+    {
+      "customType": "regex",
+      "description": "The reusable workflow's tag, which should follow the pinned SDK.",
+      "managerFilePatterns": ["/(^|/)\\.github/workflows/[^/]+\\.ya?ml$/"],
+      "matchStrings": ["StokerHQ/plugin-sdk/\\.github/workflows/[^@]+@(?<currentValue>v[0-9.]+)"],
+      "datasourceTemplate": "github-releases",
+      "depNameTemplate": "StokerHQ/plugin-sdk"
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+name: build
+
+on:
+  pull_request:
+  push:
+    branches: [master]
+  release:
+    types: [published]
+
+permissions:
+  contents: read
+
+jobs:
+  # Every target in stoker-plugin.yaml, built by the SDK's reusable workflow against the SDK release it pins.
+  build:
+    uses: StokerHQ/plugin-sdk/.github/workflows/build-hook-plugin.yml@v1.0.1
+
+  # A published release gets the built files as its assets, under the names the registry entry lists. The tag must be
+  # v<version> of the version the source's manifest declares.
+  release:
+    if: github.event_name == 'release'
+    needs: build
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: The tag is the manifest's version
+        env:
+          TAG: ${{ github.event.release.tag_name }}
+        run: |
+          source=$(python3 -c 'import yaml; print(yaml.safe_load(open("stoker-plugin.yaml"))["targets"][0]["source"])')
+          version=$(grep -oP '"version":\s*"\K[^"]+' "$source" | head -n1)
+          if [ "v$version" != "$TAG" ]; then echo "$source declares $version, the tag is $TAG"; exit 1; fi
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          pattern: plugin-*
+          merge-multiple: true
+          path: out
+      - name: Attach the files
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ github.event.release.tag_name }}
+        run: |
+          ls -l out
+          gh release upload "$TAG" out/* --clobber
