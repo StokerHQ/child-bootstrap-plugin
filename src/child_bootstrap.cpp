@@ -33,10 +33,10 @@ STOKER_PLUGIN_MANIFEST(R"json({
   "id": "app.stokerhq.child-bootstrap",
   "name": "Child bootstrap and session transfer",
   "type": "hook",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "abi": 1,
   "description": "Loads a Stoker bootstrap into a suspended child and transfers the existing run to that child before it starts.",
-  "hosts": ["steamworks", "ubisoft", "galaxy"],
+  "hosts": ["steamworks", "ubisoft", "galaxy", "eos"],
   "config": {
     "type": "object",
     "additionalProperties": false,
