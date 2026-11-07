@@ -13,7 +13,7 @@ permissions:
 jobs:
   # Every target in stoker-plugin.yaml, built by the SDK's reusable workflow against the SDK release it pins.
   build:
-    uses: StokerHQ/plugin-sdk/.github/workflows/build-hook-plugin.yml@v1.0.1
+    uses: StokerHQ/plugin-sdk/.github/workflows/build-hook-plugin.yml@v1.0.2
 
   # A published release gets the built files as its assets, under the names the registry entry lists. The tag must be
   # v<version> of the version the source's manifest declares.

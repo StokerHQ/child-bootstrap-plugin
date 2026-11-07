@@ -4,8 +4,8 @@ schemaVersion: "1.0"
 key: app.stokerhq.child-bootstrap
 kind: hook
 sdk:
-  version: "1.0.1"
-  sha256: "f53602e990ca59c348b99f6eb00e9b082f21a5b6b3aa766c521038fa59a69b6e"
+  version: "1.0.2"
+  sha256: "7fd3a85c8fc9e7b5463961bafa46a921e1156cc850089d300cb5efbe6cb9442f"
 targets:
   - { os: windows, architecture: x86, source: src/child_bootstrap.cpp, name: child-bootstrap }
   - { os: windows, architecture: x64, source: src/child_bootstrap.cpp, name: child-bootstrap }
